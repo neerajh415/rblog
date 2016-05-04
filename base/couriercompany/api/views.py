@@ -45,15 +45,18 @@ def create_api(request):
 	if request.method=='POST':
 		post_qdict = copy.deepcopy(request.POST)
 		form_details = parser_utils.qdict_to_dict(post_qdict)
-		valid_pincode = Couriercompany.objects.filter(Q(pincode_id=form_details['pincode']) & Q(availability=True) & Q(limit__gt=form_details['limit']) or Q(limit='Notlimit'))
+		valid_pincode = Couriercompany.objects.filter(Q(pincode_id=form_details['pincode']) & Q(availability=True))
 		data = {}
 		for x in valid_pincode:
-			data[int(x.__dict__['preference'])] = x.__dict__['courier']	
+			if x.__dict__['limit']=='Notlimit' or int(form_details['limit']) < float(x.__dict__['limit']):
+				data[int(x.__dict__['preference'])] = x.__dict__['courier']
+			else:
+				continue
 		return HttpResponse(json.dumps(data), content_type="application/json")
 	else:
 		data ={
    				"error": {
-      				"message": "Unsupported get request. Please read the Graph API documentation at https://developers.facebook.com/docs/graph-api",
+      				"message": "Unsupported get request. ",
       						"type": "GraphMethodException",
       						"code": 100,
       							"pyck_id": "Ak7rd0w2yXV"

@@ -4,6 +4,10 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type = "text/javascript" language = "javascript">
 	$(document).ready(function() {
+		function isEmpty(ob){
+   			for(var i in ob){ return false;}
+  				return true;
+				}
     $(function() {
                 $("#myform").on("submit", function(e) {
                     e.preventDefault();
@@ -15,22 +19,26 @@
                         success: function(data) {
                         		console.log(data);
                         		var select = document.getElementById('cities');
+                        		if (!isEmpty(data)){
+                        				for (var key in data) {
+  											if (data.hasOwnProperty(key)){
+    											var opt = document.createElement('option');
+    											opt.value = key;
+    											opt.innerHTML = data[key];
+    											select.appendChild(opt);
+ 										 								}
+																}
+														}
+								else {
+									alert('data is not available for this pin');
 
-                        		for (var key in data) {
-  										if (data.hasOwnProperty(key)) {
-    										var opt = document.createElement('option');
-    										opt.value = key;
-    										opt.innerHTML = data[key];
-    										select.appendChild(opt);
- 										 }
-										}
-
-                        }
-                    });
-                });
-            });
+								}
+                        						}
+                    		});
+                										});
+            		});
         
-});
+			});
 </script>
 
 
