@@ -1,0 +1,72 @@
+<!-- All the files that are required -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type = "text/javascript" language = "javascript">
+	$(document).ready(function() {
+    $(function() {
+                $("#myform").on("submit", function(e) {
+                    e.preventDefault();
+                    document.getElementById("cities").options.length = 0;
+                    $.ajax({
+                        url: "http://localhost:8000/api/posts/available/",
+                        type: 'POST',
+                        data: $(this).serialize(),
+                        success: function(data) {
+                        		console.log(data);
+                        		var select = document.getElementById('cities');
+
+                        		for (var key in data) {
+  										if (data.hasOwnProperty(key)) {
+    										var opt = document.createElement('option');
+    										opt.value = key;
+    										opt.innerHTML = data[key];
+    										select.appendChild(opt);
+ 										 }
+										}
+
+                        }
+                    });
+                });
+            });
+        
+});
+</script>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<!-- Where all the magic happens -->
+<!-- LOGIN FORM -->
+<div class="text-center" style="padding:50px 0">
+	<div class="logo">Check status</div>
+	<!-- Main Form -->
+	<div class="login-form-1">
+		<form id="myform" class="text-left", method="post">
+			<div class="login-form-main-message"></div>
+			<div class="main-login-form">
+				<div class="login-group">
+					<div class="form-group">
+						<label for="pincode" class="sr-only">Pincode</label><br>
+						<input type="text" class="form-control" id="pincode" name="pincode" placeholder="username">
+					</div>
+					<div class="form-group">
+						<label for="lg_password" class="sr-only">Money Limit</label><br>
+						<input type="text" class="form-control" id="lg_password" name="limit" placeholder="Enter number">
+					</div>
+				</div>
+				<button id = "formsubmit" type="submit" class="login-button">Submit</button>
+				
+
+			</div>
+
+		</form>
+		<select id="cities">
+    				{% for city in cities %}
+    						<option>City</option>
+    						<option id={{city.id}}>{{city}}</option>
+    						{% endfor %}
+					</select>
+	</div>
+	<!-- end:Main Form -->
+</div>
