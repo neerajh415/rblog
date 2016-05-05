@@ -30,6 +30,10 @@
 																}
 														}
 								else {
+												var opt = document.createElement('option');
+    											opt.value = 'Not exist';
+    											opt.innerHTML = 'Not exist';
+    											select.appendChild(opt);
 									alert('data is not available for this pin');
 
 								}
@@ -69,11 +73,8 @@
 			</div>
 
 		</form>
-		<select id="cities">
-    				{% for city in cities %}
-    						<option>City</option>
-    						<option id={{city.id}}>{{city}}</option>
-    						{% endfor %}
+					<select id="cities">
+					<option>Courier company list</option>
 					</select>
 	</div>
 	<!-- end:Main Form -->
