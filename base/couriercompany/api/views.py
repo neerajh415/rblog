@@ -45,11 +45,11 @@ def create_api(request):
 	if request.method=='POST':
 		post_qdict = copy.deepcopy(request.POST)
 		form_details = parser_utils.qdict_to_dict(post_qdict)
-		valid_pincode = Couriercompany.objects.filter(Q(pincode_id=form_details['pincode']) & Q(availability=True))
+		valid_pincode = Couriercompany.objects.filter(Q(pincode_id=form_details['pincode']) & Q(availability=True)).values('courier', 'limit', 'preference').order_by('preference')
 		data = {}
 		for x in valid_pincode:
-			if x.__dict__['limit']=='Notlimit' or int(form_details['limit']) < float(x.__dict__['limit']):
-				data[int(x.__dict__['preference'])] = x.__dict__['courier']
+			if x['limit']=='Notlimit' or int(form_details['limit']) < float(x['limit']):
+				data[int(x['preference'])] = x['courier']
 			else:
 				continue
 		return HttpResponse(json.dumps(data), content_type="application/json")
