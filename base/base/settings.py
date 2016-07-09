@@ -81,7 +81,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'rblog',
 	    'USER': 'root',
-	    'PASSWORD': 'neerajsaini',
+	    'PASSWORD': 'asd',
+        'OPTIONS': {'charset': 'utf8mb4'},
     }
 }
 

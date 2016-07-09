@@ -35,3 +35,10 @@ class Couriercompany(models.Model):
 
 	def __unicode__(self):
 		return "%s" % self.courier
+
+
+class Emotica(models.Model):
+	emotica = models.CharField(blank=True, null=True, max_length=255)
+
+	def __unicode__(self):
+		return self.emotica

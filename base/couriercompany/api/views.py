@@ -16,6 +16,7 @@ from rest_framework import generics
 from couriercompany.api.permissions import IsOwner
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from rest_framework import permissions
+from couriercompany.models import *
 
 class PostListApiView(ListAPIView):
 	queryset = Couriercompany.objects.all()
@@ -67,7 +68,10 @@ def create_api(request):
 
 @csrf_exempt
 def home(request):
-    return render(request, 'home.html')
+	comment = request.POST.get('comment', '')
+	print comment
+	Emotica.objects.create(emotica=comment)
+	return render(request, 'home.html')
 
 
 class MessageDetail(generics.RetrieveUpdateDestroyAPIView):
